@@ -45,4 +45,75 @@ package object api {
     (response.code, response.body)
   }
 
+  /**
+   * Get follower profile.
+   * [[https://developers.zalo.me/docs/api/official-account-api/api/lay-thong-tin-post-2570]]
+   *
+   * @param userId      user id for oa, or phone number of follower
+   * @param accessToken access token
+   * @return (response code, response body)
+   */
+  def getProfile(userId: String, accessToken: String): (Int, String) =
+    get("getprofile", accessToken, Json.obj(
+      "user_id" -> Json.fromString(userId)
+    ))
+
+  /**
+   * Get followers.
+   * [[https://developers.zalo.me/docs/api/official-account-api/api/lay-thong-tin-post-2570]]
+   *
+   * @param offset      offset
+   * @param count       count
+   * @param accessToken access token
+   * @return
+   */
+  def getFollowers(offset: Int, count: Int, accessToken: String): (Int, String) =
+    get("getfollowers", accessToken, Json.obj(
+      "offset" -> Json.fromInt(offset),
+      "count" -> Json.fromInt(count)
+    ))
+
+  /**
+   * Get recent chats.
+   * [[https://developers.zalo.me/docs/api/official-account-api/api/lay-thong-tin-post-2570]]
+   *
+   * @param offset      offset
+   * @param count       count
+   * @param accessToken access token
+   * @return
+   */
+  def getRecentChats(offset: Int, count: Int, accessToken: String): (Int, String) =
+    get("listrecentchat", accessToken, Json.obj(
+      "offset" -> Json.fromInt(offset),
+      "count" -> Json.fromInt(count)
+    ))
+
+  /**
+   * Get conversation between user and oa.
+   * [[https://developers.zalo.me/docs/api/official-account-api/api/lay-thong-tin-post-2570]]
+   *
+   * @param userId      user id for oa
+   * @param offset      offset
+   * @param count       count
+   * @param accessToken access token
+   * @return
+   */
+  def getConversation(userId: Long, offset: Int, count: Int, accessToken: String): (Int, String) =
+    get("conversation", accessToken, Json.obj(
+      "user_id" -> Json.fromLong(userId),
+      "offset" -> Json.fromInt(offset),
+      "count" -> Json.fromInt(count)
+    ))
+
+  private def get(endpoint: String, accessToken: String, data: Json): (Int, String) = {
+    val response = Http(s"$urlPrefix/$endpoint")
+      .header("Content-Type", "application/json")
+      .params(
+        "access_token" -> accessToken,
+        "data" -> data.noSpaces
+      )
+      .asString
+    (response.code, response.body)
+  }
+
 }
