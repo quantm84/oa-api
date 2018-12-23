@@ -16,6 +16,5 @@ libraryDependencies ++= Seq(
 ).map(_ % circeVersion)
 
 libraryDependencies ++= Seq(
-  "com.typesafe" % "config" % "1.3.2",
   "org.scalaj" %% "scalaj-http" % "2.4.1"
 )
