@@ -4,7 +4,7 @@ name := "oa-api"
 
 version := "0.1"
 
-scalaVersion := "2.12.8"
+crossScalaVersions := Seq("2.11.12", "2.12.8")
 
 val circeVersion = "0.10.0"
 
