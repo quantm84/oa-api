@@ -2,7 +2,9 @@ organization += "me.zalo.oa"
 
 name := "oa-api"
 
-version := "0.1"
+version := "0.4"
+
+scalaVersion := "2.12.8"
 
 crossScalaVersions := Seq("2.11.12", "2.12.8")
 
