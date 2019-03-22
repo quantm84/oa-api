@@ -2,7 +2,7 @@ organization += "me.zalo.oa"
 
 name := "oa-api"
 
-version := "0.5"
+version := "0.6"
 
 scalaVersion := "2.12.8"
 
