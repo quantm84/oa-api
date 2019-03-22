@@ -105,6 +105,80 @@ package object api {
       "count" -> Json.fromInt(count)
     ))
 
+  /**
+   * Get tags.
+   * [[https://developers.zalo.me/docs/api/official-account-api/api/nhan-post-2564]]
+   *
+   * @param accessToken access token
+   * @return
+   */
+  def getTags(accessToken: String): (Int, String) =
+    get("tag/gettagsofoa", accessToken, Json.obj())
+
+  /**
+   * Tag a follower.
+   * [[https://developers.zalo.me/docs/api/official-account-api/api/nhan-post-2564]]
+   *
+   * @param userId      user id for oa
+   * @param tag         tag
+   * @param accessToken access token
+   * @return
+   */
+  def tagFollower(userId: Long, tag: String, accessToken: String): (Int, String) = {
+    val data = Json.obj(
+      "user_id" -> Json.fromLong(userId),
+      "tag_name" -> Json.fromString(tag)
+    )
+
+    println("post data: " + printer.pretty(data))
+
+    val response = Http(s"$urlPrefix/tag/tagfollower?access_token=$accessToken")
+      .header("Content-Type", "application/json")
+      .postData(printer.pretty(data))
+      .asString
+    (response.code, response.body)
+  }
+
+  /**
+   * Remove a follower from tag.
+   * [[https://developers.zalo.me/docs/api/official-account-api/api/nhan-post-2564]]
+   *
+   * @param userId      user id for oa
+   * @param tag         tag
+   * @param accessToken access token
+   * @return
+   */
+  def removeFollowerFromTag(userId: Long, tag: String, accessToken: String): (Int, String) = {
+    val data = Json.obj(
+      "user_id" -> Json.fromLong(userId),
+      "tag_name" -> Json.fromString(tag)
+    )
+    val response = Http(s"$urlPrefix/tag/rmfollowerfromtag?access_token=$accessToken")
+      .header("Content-Type", "application/json")
+      .postData(printer.pretty(data))
+      .asString
+    (response.code, response.body)
+  }
+
+  /**
+   * Remove a tag.
+   * [[https://developers.zalo.me/docs/api/official-account-api/api/nhan-post-2564]]
+   *
+   * @param tag         tag
+   * @param accessToken access token
+   * @return
+   */
+  def removeTag(tag: String, accessToken: String): (Int, String) = {
+    val data = Json.obj(
+      "tag_name" -> Json.fromString(tag)
+    )
+    val response = Http(s"$urlPrefix/tag/rmtag?access_token=$accessToken")
+      .header("Content-Type", "application/json")
+      .postData(printer.pretty(data))
+      .asString
+    (response.code, response.body)
+  }
+
   private def get(endpoint: String, accessToken: String, data: Json): (Int, String) = {
     val response = Http(s"$urlPrefix/$endpoint")
       .header("Content-Type", "application/json")
