@@ -130,8 +130,6 @@ package object api {
       "tag_name" -> Json.fromString(tag)
     )
 
-    println("post data: " + printer.pretty(data))
-
     val response = Http(s"$urlPrefix/tag/tagfollower?access_token=$accessToken")
       .header("Content-Type", "application/json")
       .postData(printer.pretty(data))
